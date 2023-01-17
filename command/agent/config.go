@@ -309,6 +309,10 @@ type ClientConfig struct {
 	// the host
 	BridgeNetworkSubnet string `hcl:"bridge_network_subnet"`
 
+	// BridgeNetworkHairpinMode is whether or not to enable hairpin mode on the
+	// internal bridge network
+	BridgeNetworkHairpinMode bool `hcl:"bridge_network_hairpin_mode"`
+
 	// HostNetworks describes the different host networks available to the host
 	// if the host uses multiple interfaces
 	HostNetworks []*structs.ClientHostNetworkConfig `hcl:"host_network"`
@@ -2087,6 +2091,10 @@ func (a *ClientConfig) Merge(b *ClientConfig) *ClientConfig {
 	}
 	if b.BridgeNetworkSubnet != "" {
 		result.BridgeNetworkSubnet = b.BridgeNetworkSubnet
+	}
+
+	if b.BridgeNetworkHairpinMode {
+		result.BridgeNetworkHairpinMode = true
 	}
 
 	result.HostNetworks = a.HostNetworks
